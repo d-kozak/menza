@@ -60,6 +60,11 @@ class MenzaService {
         menza.meals.remove(mealId)
     }
 
+    fun findMealInMenza(menzaId:Long,mealId:Long):Meal?{
+       val menza = getMenzaById(menzaId)
+       return menza.meals[mealId]
+    }
+
     fun findMenza(id: Long): Menza? = menzas[id]
 
     private fun getMenzaById(menzaId: Long) =
@@ -87,6 +92,10 @@ class MenzaController(private val menzaService: MenzaService) {
 
     @GetMapping("/{menzaId}/meal")
     fun getMeals(@PathVariable menzaId: Long) = menzaService.listMeals(menzaId)
+
+    @GetMapping("/{menzaId}/meal/{mealId}")
+    fun getMeals(@PathVariable menzaId: Long,@PathVariable mealId:Long) = menzaService.findMealInMenza(menzaId,mealId)
+
 
     @PostMapping("/{menzaId}/meal/{mealId}")
     fun addMeal(@PathVariable menzaId: Long, @RequestBody meal: Meal) = menzaService.addMeal(menzaId, meal)
